@@ -128,12 +128,11 @@ bot.on('callback_query', (callbackQuery) => {
     const action = callbackQuery.data;
 
     if (action === 'consiga_em_programa') {
-        const chatIdKipikh = '6711731667';
+        // const chatIdKipikh = '6711731667';
+        const chatIdKipikh = '531402851';
 
-        // Отвечаем на callbackQuery
         bot.answerCallbackQuery(callbackQuery.id);
 
-        // Переходим в чат с пользователем @kipikh
         bot.sendMessage(chatId, `Переход в чат с пользователем @kipikh`);
         bot.sendMessage(chatIdKipikh, `Привет, тебе хочет написать ${chatId}!`);    } else if (action === 'como_funciona_el_programa') {
         comoFuncionaElPrograma(chatId, callbackQuery);
