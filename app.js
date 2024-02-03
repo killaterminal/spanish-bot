@@ -115,7 +115,7 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
     bot.answerCallbackQuery(callbackQuery.id);
 }
 
-const chatIdKipikh = '6711731667';
+// const chatIdKipikh = '6711731667';
 
 async function consigaEmPrograma(chatIdTo, chatId, callbackQuery) {
     await bot.sendMessage(chatIdTo, 'Пересланное сообщение:', { reply_to_message_id: callbackQuery.message.message_id });
@@ -128,9 +128,14 @@ bot.on('callback_query', (callbackQuery) => {
     const action = callbackQuery.data;
 
     if (action === 'consiga_em_programa') {
-        consigaEmPrograma(chatIdKipikh, chatId, callbackQuery.message.message_id);
+        const chatIdKipikh = '6711731667';
+
+        // Отвечаем на callbackQuery
         bot.answerCallbackQuery(callbackQuery.id);
-    } else if (action === 'como_funciona_el_programa') {
+
+        // Переходим в чат с пользователем @kipikh
+        bot.sendMessage(chatId, `Переход в чат с пользователем @kipikh`);
+        bot.sendMessage(chatIdKipikh, `Привет, тебе хочет написать ${chatId}!`);    } else if (action === 'como_funciona_el_programa') {
         comoFuncionaElPrograma(chatId, callbackQuery);
     } else if (action === 'testimonials') {
         comoTestimonios(chatId, callbackQuery);
