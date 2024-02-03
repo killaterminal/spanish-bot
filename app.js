@@ -128,13 +128,18 @@ bot.on('callback_query', (callbackQuery) => {
     const action = callbackQuery.data;
 
     if (action === 'consiga_em_programa') {
-        // const chatIdKipikh = '6711731667';
-        const chatIdKipikh = '531402851';
+        const chatIdKipikh = '6711731667';
 
+        // Создаем ссылку на чат с пользователем @kipikh
+        const chatLink = `https://t.me/${chatIdKipikh}`;
+
+        // Создаем сообщение с ссылкой и отправляем его в чат
+        const message = `Переход в чат с пользователем [Kipikh](${chatLink})`;
+        bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+
+        // Отвечаем на callbackQuery
         bot.answerCallbackQuery(callbackQuery.id);
-
-        bot.sendMessage(chatId, `Переход в чат с пользователем @kipikh`);
-        bot.sendMessage(chatIdKipikh, `Привет, тебе хочет написать ${chatId}!`);    } else if (action === 'como_funciona_el_programa') {
+    } else if (action === 'como_funciona_el_programa') {
         comoFuncionaElPrograma(chatId, callbackQuery);
     } else if (action === 'testimonials') {
         comoTestimonios(chatId, callbackQuery);
