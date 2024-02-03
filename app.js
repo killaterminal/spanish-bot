@@ -14,6 +14,9 @@ const token = '6856597952:AAF6IGv0_ir1Vi-JfaDmzVjAtpQfY8uqb8o';
 
 const bot = new TelegramBot(token, { polling: true });
 
+const chatIdKipikh = '6711731667';
+const chatLink = `https://t.me/${chatIdKipikh}`;
+
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     const userName = msg.from.first_name;
@@ -34,7 +37,7 @@ bot.onText(/\/start/, (msg) => {
 
         const keyboard = {
             inline_keyboard: [
-                [{ text: 'Escríbeme ✍️', callback_data: 'consiga_em_programa' }],
+                [{ text: 'Escríbeme ✍️', url: chatLink }],
                 [{ text: 'Cómo funciona el programa', callback_data: 'como_funciona_el_programa' }],
             ],
         };
@@ -102,7 +105,7 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
         parse_mode: 'Markdown',
         reply_markup: {
             inline_keyboard: [
-                [{ text: 'Escríbeme ✍️', callback_data: 'consiga_em_programa' }],
+                [{ text: 'Escríbeme ✍️', url: chatLink }],
                 [{ text: 'Testimonios', callback_data: 'testimonials' }],
             ],
         },
@@ -128,14 +131,14 @@ bot.on('callback_query', (callbackQuery) => {
     const action = callbackQuery.data;
 
     if (action === 'consiga_em_programa') {
-        const chatIdKipikh = '6711731667';
+        //const chatIdKipikh = '6711731667';
 
         // Создаем ссылку на чат с пользователем @kipikh
-        const chatLink = `https://t.me/${chatIdKipikh}`;
+        //const chatLink = `https://t.me/${chatIdKipikh}`;
 
         // Создаем сообщение с ссылкой и отправляем его в чат
-        const message = `Переход в чат с пользователем [Kipikh](${chatLink})`;
-        bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+        //const message = `Переход в чат с пользователем [Kipikh](${chatLink})`;
+        bot.sendMessage(chatId, "dw");
 
         // Отвечаем на callbackQuery
         bot.answerCallbackQuery(callbackQuery.id);
