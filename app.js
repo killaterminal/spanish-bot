@@ -118,7 +118,7 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
 const chatIdKipikh = '6711731667';
 
 async function consigaEmPrograma(chatIdTo, chatId, callbackQuery) {
-    await bot.forwardMessage(chatIdKipikh, chatId, callbackQuery.message.message_id);
+    await bot.sendMessage(chatIdTo, 'Пересланное сообщение:', { reply_to_message_id: callbackQuery.message.message_id });
     bot.answerCallbackQuery(callbackQuery.id);
 
 }
