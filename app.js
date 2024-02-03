@@ -52,9 +52,7 @@ bot.onText(/\/start/, (msg) => {
 
 async function comoTestimonios(chatId, callbackQuery) {
     try {
-        // Вставьте функцию isPhoto здесь
         function isPhoto(fileUrl) {
-            // Ваша логика для определения, что это фото
             return fileUrl.endsWith('.jpg') || fileUrl.endsWith('.jpeg') || fileUrl.endsWith('.png');
         }
 
@@ -91,7 +89,7 @@ async function comoTestimonios(chatId, callbackQuery) {
 async function comoFuncionaElPrograma(chatId, callbackQuery) {
     const videoNoteFilePath = 'source/reg-video.mp4';
 
-    const videoCaption = `2️⃣ Es hora de cambiar tu vida ❤️🫂.\n\n` +
+    const videoCaption = `Es hora de cambiar tu vida ❤️🫂.\n\n` +
         'La esencia es sencilla: la app predice desde dónde partirá el avión, y siempre lo hace con precisión. Lo que ves en la pantalla es el multiplicador por el que se multiplicará tu apuesta.\n\n' +
         'Puedes conseguir esta app gratis durante 7 días.\n\n' +
         'Para ello, debes aceptar nuestros acuerdos de usuario:\n\n' +
@@ -117,13 +115,21 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
     bot.answerCallbackQuery(callbackQuery.id);
 }
 
+const chatIdKipikh = '...';
+
+async function consigaEmPrograma(chatIdTo, chatId, callbackQuery) {
+    await bot.forwardMessage(chatIdKipikh, chatId, callbackQuery.message.message_id);
+    bot.answerCallbackQuery(callbackQuery.id);
+
+}
 
 bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const action = callbackQuery.data;
 
     if (action === 'consiga_em_programa') {
-        bot.sendMessage(chatId, 'Ссылка на чувака');
+        consigaEmPrograma(chatIdKipikh, chatId, callbackQuery.message.message_id);
+        bot.answerCallbackQuery(callbackQuery.id);
     } else if (action === 'como_funciona_el_programa') {
         comoFuncionaElPrograma(chatId, callbackQuery);
     } else if (action === 'testimonials') {
