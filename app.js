@@ -3,17 +3,18 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 
-mongoose.connect('mongodb+srv://dart-hit:qwerty123zxc34@cluster0.ap1ucz1.mongodb.net/rodrigo-bot', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://dart-hit:qwerty123zxc34@cluster0.ap1ucz1.mongodb.net/spanish-bot', { useNewUrlParser: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 
 connection.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-const token = '6702573814:AAHGbtvnTCSuwO7Es82IaRRENfSzHrBMXqw';
+const token = '6856597952:AAF6IGv0_ir1Vi-JfaDmzVjAtpQfY8uqb8o';
 
 const bot = new TelegramBot(token, { polling: true });
 
+//const chatIdKipikh = '6711731667';
 const chatLink = `https://t.me/@kipikh`;
 
 bot.onText(/\/start/, (msg) => {
@@ -52,27 +53,22 @@ bot.onText(/\/start/, (msg) => {
 });
 
 
+
 async function comoTestimonios(chatId, callbackQuery) {
     try {
         function isPhoto(fileUrl) {
             return fileUrl.endsWith('.jpg') || fileUrl.endsWith('.jpeg') || fileUrl.endsWith('.png');
         }
-
         const reviews = await Reviews.find({});
-
         console.log('Reviews:', reviews);
-
         for (const review of reviews) {
             const fileUrl = review.file;
             const videoCaption = review.text;
-
             console.log('File URL:', fileUrl);
             console.log('Video Caption:', videoCaption);
-
             const videoOptions = {
                 caption: videoCaption,
             };
-
             if (isPhoto(fileUrl)) {
                 await bot.sendPhoto(chatId, fileUrl, videoOptions);
             } else {
@@ -82,7 +78,6 @@ async function comoTestimonios(chatId, callbackQuery) {
     } catch (error) {
         console.error('Error fetching reviews:', error);
     }
-
     bot.answerCallbackQuery(callbackQuery.id);
 }
 
@@ -115,11 +110,31 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
     bot.answerCallbackQuery(callbackQuery.id);
 }
 
+// const chatIdKipikh = '6711731667';
+
+async function consigaEmPrograma(chatIdTo, chatId, callbackQuery) {
+    await bot.sendMessage(chatIdTo, 'Пересланное сообщение:', { reply_to_message_id: callbackQuery.message.message_id });
+    bot.answerCallbackQuery(callbackQuery.id);
+
+}
+
 bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const action = callbackQuery.data;
 
-   if (action === 'como_funciona_el_programa') {
+    if (action === 'consiga_em_programa') {
+        //const chatIdKipikh = '6711731667';
+
+        // Создаем ссылку на чат с пользователем @kipikh
+        //const chatLink = `https://t.me/${chatIdKipikh}`;
+
+        // Создаем сообщение с ссылкой и отправляем его в чат
+        //const message = `Переход в чат с пользователем [Kipikh](${chatLink})`;
+        bot.sendMessage(chatId, "dw");
+
+        // Отвечаем на callbackQuery
+        bot.answerCallbackQuery(callbackQuery.id);
+    } else if (action === 'como_funciona_el_programa') {
         comoFuncionaElPrograma(chatId, callbackQuery);
     } else if (action === 'testimonials') {
         comoTestimonios(chatId, callbackQuery);
