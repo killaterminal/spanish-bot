@@ -69,7 +69,7 @@ async function comoTestimonios(chatId, callbackQuery) {
                 caption: videoCaption,
             };
 
-            await bot.sendPhoto(chatId, { source: fileBuffer }, videoOptions);
+            await bot.sendPhoto(chatId, { source: fileBuffer }, { caption: videoCaption });
         }
     } catch (error) {
         console.error('Error fetching reviews:', error);
