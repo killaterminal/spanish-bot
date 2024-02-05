@@ -55,30 +55,21 @@ bot.onText(/\/start/, (msg) => {
 
 async function comoTestimonios(chatId, callbackQuery) {
     try {
-        function isPhoto(fileUrl) {
-            return fileUrl.endsWith('.jpg') || fileUrl.endsWith('.jpeg') || fileUrl.endsWith('.png');
-        }
-
         const reviews = await Reviews.find({});
 
         console.log('Reviews:', reviews);
 
         for (const review of reviews) {
-            const fileUrl = review.file;
+            const fileBuffer = review.file.buffer;
             const videoCaption = review.text;
 
-            console.log('File URL:', fileUrl);
             console.log('Video Caption:', videoCaption);
 
             const videoOptions = {
                 caption: videoCaption,
             };
 
-            if (isPhoto(fileUrl)) {
-                await bot.sendPhoto(chatId, fileUrl, videoOptions);
-            } else {
-                await bot.sendDocument(chatId, fileUrl, videoOptions);
-            }
+            await bot.sendPhoto(chatId, { source: fileBuffer }, videoOptions);
         }
     } catch (error) {
         console.error('Error fetching reviews:', error);
