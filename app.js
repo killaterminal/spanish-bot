@@ -14,7 +14,7 @@ const token = '6856597952:AAF6IGv0_ir1Vi-JfaDmzVjAtpQfY8uqb8o';
 
 const bot = new TelegramBot(token, { polling: true });
 
-const chatLink = `https://t.me/@kipikh`;
+const chatLink = `https://t.me/@luizbernor`;
 
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
