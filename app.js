@@ -3,23 +3,49 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 
-mongoose.connect('mongodb+srv://dart-hit:qwerty123zxc34@cluster0.ap1ucz1.mongodb.net/spanish-bot', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://dart-hit:qwerty123zxc34@cluster0.ap1ucz1.mongodb.net/rodrigo-bot', { useNewUrlParser: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 
 connection.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-const token = '6856597952:AAF6IGv0_ir1Vi-JfaDmzVjAtpQfY8uqb8o';
+const token = '6702573814:AAHGbtvnTCSuwO7Es82IaRRENfSzHrBMXqw';
 
 const bot = new TelegramBot(token, { polling: true });
 
-//const chatIdKipikh = '6711731667';
-const chatLink = `https://t.me/@luizbernor`;
+const chatLink = `https://t.me/@LionelMess3`;
 
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     const userName = msg.from.first_name;
+
+    User.findOne({ chatId: chatId })
+        .then((existingUser) => {
+            if (existingUser) {
+                console.log('Пользователь уже существует:', `${existingUser} \nMsg ID:${msg.chat.id} - UserID: ${existingUser.chatId}`);
+                return;
+            }
+            const newUser = new User({
+                firstName: msg.from.first_name,
+                lastName: msg.from.last_name,
+                username: msg.from.username,
+                chatId: msg.chat.id,
+                directed: false
+            });
+
+            newUser.save()
+                .then((savedUser) => {
+                    console.log('Пользователь сохранён:', savedUser);
+                })
+                .catch((error) => {
+                    console.error('Ошибка при сохранении пользователя', error);
+                });
+        })
+        .catch((error) => {
+            console.error('Ошибка при поиске пользователя:', error);
+        });
+
     bot.getMe().then((me) => {
         const botName = me.first_name;
 
@@ -37,7 +63,7 @@ bot.onText(/\/start/, (msg) => {
 
         const keyboard = {
             inline_keyboard: [
-                [{ text: 'Escríbeme ✍️', url: chatLink }],
+                [{ text: 'Escríbeme ✍️', callback_data: 'escribeme_command', url: chatLink, }],
                 [{ text: 'Cómo funciona el programa', callback_data: 'como_funciona_el_programa' }],
             ],
         };
@@ -53,22 +79,27 @@ bot.onText(/\/start/, (msg) => {
 });
 
 
-
 async function comoTestimonios(chatId, callbackQuery) {
     try {
         function isPhoto(fileUrl) {
             return fileUrl.endsWith('.jpg') || fileUrl.endsWith('.jpeg') || fileUrl.endsWith('.png');
         }
+
         const reviews = await Reviews.find({});
+
         console.log('Reviews:', reviews);
+
         for (const review of reviews) {
             const fileUrl = review.file;
             const videoCaption = review.text;
+
             console.log('File URL:', fileUrl);
             console.log('Video Caption:', videoCaption);
+
             const videoOptions = {
                 caption: videoCaption,
             };
+
             if (isPhoto(fileUrl)) {
                 await bot.sendPhoto(chatId, fileUrl, videoOptions);
             } else {
@@ -78,6 +109,7 @@ async function comoTestimonios(chatId, callbackQuery) {
     } catch (error) {
         console.error('Error fetching reviews:', error);
     }
+
     bot.answerCallbackQuery(callbackQuery.id);
 }
 
@@ -97,7 +129,7 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
         parse_mode: 'Markdown',
         reply_markup: {
             inline_keyboard: [
-                [{ text: 'Escríbeme ✍️', url: chatLink }],
+                [{ text: 'Escríbeme ✍️', callback_data: 'escribeme_command', url: chatLink }],
                 [{ text: 'Testimonios', callback_data: 'testimonials' }],
             ],
         },
@@ -110,30 +142,18 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
     bot.answerCallbackQuery(callbackQuery.id);
 }
 
-// const chatIdKipikh = '6711731667';
-
-async function consigaEmPrograma(chatIdTo, chatId, callbackQuery) {
-    await bot.sendMessage(chatIdTo, 'Пересланное сообщение:', { reply_to_message_id: callbackQuery.message.message_id });
-    bot.answerCallbackQuery(callbackQuery.id);
-
-}
-
 bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const action = callbackQuery.data;
 
-    if (action === 'consiga_em_programa') {
-        //const chatIdKipikh = '6711731667';
-
-        // Создаем ссылку на чат с пользователем @kipikh
-        //const chatLink = `https://t.me/${chatIdKipikh}`;
-
-        // Создаем сообщение с ссылкой и отправляем его в чат
-        //const message = `Переход в чат с пользователем [Kipikh](${chatLink})`;
-        bot.sendMessage(chatId, "dw");
-
-        // Отвечаем на callbackQuery
-        bot.answerCallbackQuery(callbackQuery.id);
+    if (action === 'escribeme_command') {
+        User.updateOne({ chatId: chatId.toString() }, { directed: true })
+            .then(() => {
+                console.log('Directed updated successfully');
+            })
+            .catch((error) => {
+                console.error('Error updating directed:', error);
+            });
     } else if (action === 'como_funciona_el_programa') {
         comoFuncionaElPrograma(chatId, callbackQuery);
     } else if (action === 'testimonials') {
@@ -147,4 +167,13 @@ const reviewSchema = new mongoose.Schema({
     text: String,
 });
 
+const userSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String,
+    username: String,
+    chatId: String,
+    directed: Boolean
+});
+
+const User = mongoose.model('users', userSchema);
 const Reviews = mongoose.model('Review', reviewSchema);
