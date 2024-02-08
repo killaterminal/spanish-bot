@@ -10,7 +10,7 @@ connection.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-const token = '6702573814:AAHGbtvnTCSuwO7Es82IaRRENfSzHrBMXqw';
+const token = '6856597952:AAF6IGv0_ir1Vi-JfaDmzVjAtpQfY8uqb8o';
 
 const bot = new TelegramBot(token, { polling: true });
 
