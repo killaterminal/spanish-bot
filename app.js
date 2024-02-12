@@ -116,16 +116,16 @@ async function comoFuncionaElPrograma(chatId, callbackQuery) {
         bot.sendDocument(chatId, videoNoteFilePath, videoOptions).catch((error) => {
             console.error(error);
         });
-        bot.answerCallbackQuery(callbackQuery.id);
     }
     catch (err){
         console.error('Error in comoFuncionaElPrograma:', err);
+        bot.answerCallbackQuery(callbackQuery.id);
     }
 }
 bot.on('callback_query', (callbackQuery) => {
     console.log('Received callback:', callbackQuery);
     const chatId = callbackQuery.message.chat.id;
-    const action = callbackQuery.data;
+    const action = callbackQuery.data;  
     console.log('Action:', action);
     if (action === 'como_funciona_el_programa') {
         console.log('Handling como_funciona_el_programa...');
