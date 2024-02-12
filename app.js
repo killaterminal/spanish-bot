@@ -54,7 +54,7 @@ bot.onText(/\/start/, (msg) => {
         };
         const keyboard = {
             inline_keyboard: [
-                [{ text: 'Scrivimi a ✍️', callback_data: 'escribeme_command', url: chatLink }],
+                [{ text: 'Scrivimi a ✍️', url: chatLink }],
                 [{ text: 'Come funziona il programma', callback_data: 'como_funciona_el_programa' }],
             ],
         };
@@ -93,36 +93,45 @@ async function comoTestimonios(chatId, callbackQuery) {
     bot.answerCallbackQuery(callbackQuery.id);
 }
 async function comoFuncionaElPrograma(chatId, callbackQuery) {
-    const videoNoteFilePath = 'source/reg-video.mp4';
-    const videoCaption = `È ora di cambiare vita ❤️🫂.\n\n` +
-        'L`essenza è semplice: l`app predice il punto di partenza dell`aereo e lo fa sempre con precisione. Quello che vedete sullo schermo è il moltiplicatore per il quale verrà moltiplicata la vostra puntata.\n\n' +
-        'È possibile ottenere questa applicazione gratuitamente per 7 giorni.\n\n' +
-        'Per farlo, è necessario accettare i nostri accordi con gli utenti:\n\n' +
-        '1) Confermo che non preleverò importi superiori al limite consentito dall`autorità di vigilanza del mio paese.\n\n' +
-        '2) Confermo di non avere dipendenza dal gioco d`azzardo e di essere disposto a fare tutto con cura e attenzione.\n\n' +
-        'Registro';
+    try {
+        const videoNoteFilePath = 'source/reg-video.mp4';
+        const videoCaption = `È ora di cambiare vita ❤️🫂.\n\n` +
+            'L`essenza è semplice: l`app predice il punto di partenza dell`aereo e lo fa sempre con precisione. Quello che vedete sullo schermo è il moltiplicatore per il quale verrà moltiplicata la vostra puntata.\n\n' +
+            'È possibile ottenere questa applicazione gratuitamente per 7 giorni.\n\n' +
+            'Per farlo, è necessario accettare i nostri accordi con gli utenti:\n\n' +
+            '1) Confermo che non preleverò importi superiori al limite consentito dall`autorità di vigilanza del mio paese.\n\n' +
+            '2) Confermo di non avere dipendenza dal gioco d`azzardo e di essere disposto a fare tutto con cura e attenzione.\n\n' +
+            'Registro';
 
-    const videoOptions = {
-        caption: videoCaption,
-        parse_mode: 'Markdown',
-        reply_markup: {
-            inline_keyboard: [
-                [{ text: 'Scrivimi a ✍️', callback_data: 'escribeme_command', url: chatLink }],
-                [{ text: 'Testimonianze', callback_data: 'testimonials' }],
-            ],
-        },
-    };
-    bot.sendDocument(chatId, videoNoteFilePath, videoOptions).catch((error) => {
-        console.error(error);
-    });
-    bot.answerCallbackQuery(callbackQuery.id);
+        const videoOptions = {
+            caption: videoCaption,
+            parse_mode: 'Markdown',
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: 'Scrivimi a ✍️', url: chatLink }],
+                    [{ text: 'Testimonianze', callback_data: 'testimonials' }],
+                ],
+            },
+        };
+        bot.sendDocument(chatId, videoNoteFilePath, videoOptions).catch((error) => {
+            console.error(error);
+        });
+        bot.answerCallbackQuery(callbackQuery.id);
+    }
+    catch (err){
+        console.error('Error in comoFuncionaElPrograma:', err);
+    }
 }
 bot.on('callback_query', (callbackQuery) => {
+    console.log('Received callback:', callbackQuery);
     const chatId = callbackQuery.message.chat.id;
     const action = callbackQuery.data;
+    console.log('Action:', action);
     if (action === 'como_funciona_el_programa') {
+        console.log('Handling como_funciona_el_programa...');
         comoFuncionaElPrograma(chatId, callbackQuery);
     } else if (action === 'testimonials') {
+        console.log('Handling testimonials...');
         comoTestimonios(chatId, callbackQuery);
     }
 });
