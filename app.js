@@ -140,33 +140,3 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('users', userSchema);
 const Reviews = mongoose.model('Review', reviewSchema);
-
-// mongodb+srv://dart-hit:qwerty123zxc34@cluster0.ap1ucz1.mongodb.net/spanish-bot
-
-// const token = '6856597952:AAF6IGv0_ir1Vi-JfaDmzVjAtpQfY8uqb8o';
-
-// const chatLink = `https://t.me/@luizbernor`;
-
-
-// const videoCaption = `Ciao 👋 ${userName}\n\n` +
-//             `Piacere di conoscervi, il mio nome è ${botName}.\n\n` +
-//             'Il fatto è che siete arrivati qui per un motivo. Avete un desiderio folle di guadagnare molto denaro. Mi piacerebbe aiutarti in questa impresa.\n\n' +
-//             'Sono onorata di vedere che i miei sforzi fanno la differenza nella vita di altre persone. Tutti coloro che avevano debiti li hanno saldati e hanno iniziato una nuova vita.\n\n' +
-//             'Le persone del mio team hanno famiglie numerose e non hanno bisogno di nulla.\n\n' +
-//             'Questo mi rende felice, e aiuterò anche VOI ad arricchirvi!';
-
-// [{ text: 'Scrivimi a ✍️', callback_data: 'escribeme_command', url: chatLink }],
-// [{ text: 'Come funziona il programma', callback_data: 'como_funciona_el_programa' }],
-
-
-
-// const videoCaption = `È ora di cambiare vita ❤️🫂.\n\n` +
-//         'L`essenza è semplice: l`app predice il punto di partenza dell`aereo e lo fa sempre con precisione. Quello che vedete sullo schermo è il moltiplicatore per il quale verrà moltiplicata la vostra puntata.\n\n' +
-//         'È possibile ottenere questa applicazione gratuitamente per 7 giorni.\n\n' +
-//         'Per farlo, è necessario accettare i nostri accordi con gli utenti:\n\n' +
-//         '1) Confermo che non preleverò importi superiori al limite consentito dall`autorità di vigilanza del mio paese.\n\n' +
-//         '2) Confermo di non avere dipendenza dal gioco d`azzardo e di essere disposto a fare tutto con cura e attenzione.\n\n' +
-//         'Registro';
-
-// [{ text: 'Scrivimi a ✍️', callback_data: 'escribeme_command', url: chatLink }],
-// [{ text: 'Testimonianze', callback_data: 'testimonials' }],
