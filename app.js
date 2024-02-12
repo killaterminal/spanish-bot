@@ -50,12 +50,12 @@ bot.onText(/\/start/, (msg) => {
         const botName = me.first_name;
 
         const videoNoteFilePath = 'source/preview-video.mp4';
-        const videoCaption = `Hola 👋 ${userName}\n\n` +
-            `Encantado de conocerte, mi nombre es ${botName}.\n\n` +
-            'El caso es que por algo has llegado hasta aquí. Tienes unas ganas locas de ganar mucho dinero. Me encantaría ayudarte en este empeño.\n\n' +
-            'Me honra ver que mis esfuerzos marcan la diferencia en la vida de otras personas. Todos los que tenían deudas las han saldado y han empezado una nueva vida.\n\n' +
-            'Personas de mi equipo tienen ahora familias numerosas y no necesitan nada.\n\n' +
-            'Esto me hace feliz, ¡y te ayudaré a que TÚ también te hagas rico!';
+        const videoCaption = `Ciao 👋 ${userName}\n\n` +
+            `Piacere di conoscervi, il mio nome è ${botName}.\n\n` +
+            'Il fatto è che siete arrivati qui per un motivo. Avete un desiderio folle di guadagnare molto denaro. Mi piacerebbe aiutarti in questa impresa.\n\n' +
+            'Sono onorata di vedere che i miei sforzi fanno la differenza nella vita di altre persone. Tutti coloro che avevano debiti li hanno saldati e hanno iniziato una nuova vita.\n\n' +
+            'Le persone del mio team hanno famiglie numerose e non hanno bisogno di nulla.\n\n' +
+            'Questo mi rende felice, e aiuterò anche VOI ad arricchirvi!';
 
         const videoOptions = {
             caption: videoCaption,
@@ -63,8 +63,8 @@ bot.onText(/\/start/, (msg) => {
 
         const keyboard = {
             inline_keyboard: [
-                [{ text: 'Escríbeme ✍️', callback_data: 'escribeme_command', url: chatLink, }],
-                [{ text: 'Cómo funciona el programa', callback_data: 'como_funciona_el_programa' }],
+                [{ text: 'Scrivimi a ✍️', callback_data: 'escribeme_command', url: chatLink, }],
+                [{ text: 'Come funziona il programma', callback_data: 'como_funciona_el_programa' }],
             ],
         };
 
